@@ -20,9 +20,10 @@ namespace SorteringsAlgoritmer
         }
         static void Main(string[] args)
         {
-            int[] unsortedArray = CreateArray();
+            //int[] unsortedArray = CreateArray();
+            int[] unsortedArray = {6,4,10,9,5,8,2,1,7,3};
             Console.WriteLine("Unsorted Array: " + string.Join(", ", unsortedArray));
-            Console.WriteLine("What method of sorting would you like to use? (1: Merge Sort)");
+            Console.WriteLine("What method of sorting would you like to use? (1: Merge Sort, 2: Quick Sort)");
 
             int choice = int.Parse(Console.ReadLine());
             int[] sortedArray = null;
@@ -32,11 +33,16 @@ namespace SorteringsAlgoritmer
                 case 1:
                     sortedArray = MergeSort.MergeSortMethod(unsortedArray);
                     break;
+
+                case 2:
+                    sortedArray = QuickSort.QuickSortMethod(unsortedArray);
+                    break;
                 default:
                     Console.WriteLine("Invalid choice.");
                     return;
             }
 
+            Console.WriteLine("\n");
             Console.WriteLine("Sorted Array: " + string.Join(", ", sortedArray));
             Console.ReadKey();
         }

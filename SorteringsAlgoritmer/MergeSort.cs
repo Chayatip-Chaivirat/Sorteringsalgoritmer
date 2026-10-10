@@ -66,6 +66,10 @@ namespace SorteringsAlgoritmer
                 mergedIndex++;
             }
 
+            Console.Write("left array:" + string.Join(", ", left)); // Print the merged array after each iteration
+            Console.Write("  |  " + "right array:" + string.Join(", ", right));
+            Console.WriteLine("  |  " + "merged array:" + string.Join(", ", merged));
+
             return merged;
         }
     }
