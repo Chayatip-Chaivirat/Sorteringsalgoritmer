@@ -37,6 +37,9 @@ namespace SorteringsAlgoritmer
                 case 2:
                     sortedArray = QuickSort.QuickSortMethod(unsortedArray);
                     break;
+                case 3:  //remember to remove
+                    sortedArray = InsertionSort.InsertionSortMethod(unsortedArray);
+                    break;
                 default:
                     Console.WriteLine("Invalid choice.");
                     return;
