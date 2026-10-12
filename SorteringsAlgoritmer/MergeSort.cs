@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,19 @@ using System.Xml.Linq;
 namespace SorteringsAlgoritmer
 {
     internal class MergeSort
-    {
+    {//if you wanna use the Program to run, comment out(mark and press ctrl + K + C in that order) the Main and CreateArray methods in all classes, and uncomment everything in the Program class (mark and press ctrl + K + U in that order). 
+
+        public static int[] CreateArray()  
+        {
+            int[] array = new int[100];
+            Random rng = new Random();
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = rng.Next(1, 101);
+            }
+            return array;
+        }
+
         public static int[] MergeSortMethod(int[] array)
         {
             if (array.Length <= 1)
@@ -71,6 +84,18 @@ namespace SorteringsAlgoritmer
             Console.WriteLine("  |  " + "merged array:" + string.Join(", ", merged));
 
             return merged;
+        }
+
+        static void Main(string[] args)
+        {
+            int[] array = CreateArray();
+            Console.WriteLine("Unsorted array: " + string.Join(", ", array));
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            int[] sortedArray = MergeSortMethod(array);
+            stopwatch.Stop();
+            Console.WriteLine("Sorted array: " + string.Join(", ", sortedArray));
+            Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + " ms");
         }
     }
 }

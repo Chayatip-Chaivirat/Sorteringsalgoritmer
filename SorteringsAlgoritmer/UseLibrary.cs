@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,17 @@ namespace SorteringsAlgoritmer
 {
     internal class UseLibrary
     {
+        public static int[] CreateArray()  
+        {
+            int[] array = new int[100];
+            Random rng = new Random();
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = rng.Next(1, 101);
+            }
+            return array;
+        }
+
         static SortedDictionary<int, int> useSortedDictionary = new SortedDictionary<int, int>(); // Key int, Value int, the key is the element in the array, and the value is the number of times the element appears in the array
 
         public static int[] AddAlgorithm(int[] array)
@@ -35,6 +47,19 @@ namespace SorteringsAlgoritmer
                 }
             }   
             return sortedArray;
+        }
+
+        static void Main(string[] args)
+        {
+            int[] array = CreateArray();
+            Console.WriteLine("Unsorted array: " + string.Join(", ", array));
+            Console.WriteLine("    ");
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            int[] sortedArray = AddAlgorithm(array);
+            stopwatch.Stop();
+            Console.WriteLine("Sorted array: " + string.Join(", ", sortedArray));
+            Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + " ms");
         }
     }
 }
