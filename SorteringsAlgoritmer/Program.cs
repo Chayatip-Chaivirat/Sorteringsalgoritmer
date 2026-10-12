@@ -12,11 +12,11 @@ namespace SorteringsAlgoritmer
     {
         public static int[] CreateArray()
         {
-            int[] array = new int[50];
+            int[] array = new int[10000];
             Random rng = new Random();
             for (int i = 0; i < array.Length; i++)
             {
-                array[i] = rng.Next(1, 51);  
+                array[i] = rng.Next(1, 10001);  
             }
             return array;
         }
@@ -27,7 +27,7 @@ namespace SorteringsAlgoritmer
             bool wantToQuit = false;
             int[] unsortedArray = CreateArray();
             //int[] unsortedArray = {6,4,10,9,5,8,2,1,7,3};
-            Console.WriteLine("What method of sorting would you like to use? (1: Merge Sort, 2: Quick Sort, 3: Merge Sort with Insertion Sort, 4: Use Library)");
+            Console.WriteLine("What method of sorting would you like to use? (1: Merge Sort, 2: Quick Sort, 3: Merge Sort with Insertion Sort, 4: Quick Sort with Insertion Sort, 5: Use Library)");
             Console.WriteLine("");
             Console.WriteLine("Unsorted Array: " + string.Join(", ", unsortedArray));
 
@@ -55,6 +55,12 @@ namespace SorteringsAlgoritmer
                 watch.Stop();
             }
             else if (choice == 4)
+            {
+                watch.Start();
+                sortedArray = QuickSortWithInsertionSort.QuickSortWihtInsertionSort(unsortedArray);
+                watch.Stop();
+            }
+            else if (choice == 5)
             {
                 watch.Start();
                 sortedArray = UseLibrary.AddAlgorithm(unsortedArray);
