@@ -26,16 +26,17 @@ internal class QuickSortWithInsertionSort
         }
         int pivot = array[array.Length / 2]; // The pivot is the middle element in the array
 
-        int[] left = array.Where(x => x < pivot).ToArray(); // If the element is less than the pivot, it is added to the left array
-        int[] middle = array.Where(x => x == pivot).ToArray(); // If the element is equal to the pivot, it is added to the middle array
-        int[] right = array.Where(x => x > pivot).ToArray(); // If the element is greater than the pivot, it is added to the right array
+        int[] left = InsertionSortMethod(array.Where(x => x < pivot).ToArray()); // If the element is less than the pivot, it is added to the left array
+        int[] middle = InsertionSortMethod(array.Where(x => x == pivot).ToArray()); // If the element is equal to the pivot, it is added to the middle array
+        int[] right = InsertionSortMethod(array.Where(x => x > pivot).ToArray()); // If the element is greater than the pivot, it is added to the right array
         // If the element is greater than the pivot, it is added to the right array and sorted using insertion sort
 
+        int[] mergedArray = left.Concat(middle).Concat(right).ToArray(); // The left, middle, and right arrays are concatenated into a single array
 
         //Console.Write("Pivot: " + pivot);
         //Console.WriteLine(" | Left: " + string.Join(", ", left) + " | Middle: " + string.Join(", ", middle) + " | Right: " + string.Join(", ", right));
 
-        return InsertionSortMethod(left).Concat(middle).Concat(InsertionSortMethod(right)).ToArray(); // Return a sorted array by connecting the left, middle, and right arrays recursively
+        return InsertionSortMethod(mergedArray); // Return a sorted array by connecting the left, middle, and right arrays recursively
 
     }
 
