@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 internal class QuickSortWithInsertionSort
 {
-    static int M = 10; // The threshold for switching to insertion sort
-    static int arraySize = 100; // The size of the array to be sorted
+    static int M = 20; // The threshold for switching to insertion sort
+    static int arraySize = 1000000; // The size of the array to be sorted
     public static int[] CreateArray()
     {
         int[] array = new int[arraySize];
@@ -24,112 +24,107 @@ internal class QuickSortWithInsertionSort
 
     public static int[] QuickSortWihtInsertionSort(int[] array)
     {
-        int[] mergedArray = new int[arraySize];
-        int[] insertionSortArray = new int[arraySize];
-        int[] quickSortArray = new int[arraySize];
-        //quickSortArray = QuickSort(array);
-        //insertionSortArray = InsertionSortMethod(quickSortArray);
-        //mergedArray = insertionSortArray;
-        //return mergedArray;
+        if (array == null)
+            throw new ArgumentNullException(nameof(array));
 
+        if (array.Length <= 1)
+            return array;
 
-        //    if (mergedArray.Length <= M)
-        //    {
-        //        return InsertionSortMethod(array);
-        //    }
-        //    else
-        //    {
-        //        int pivot = array[array.Length / 2]; // The pivot is the middle element in the array
-        //        int[] left = array.Where(x => x < pivot).ToArray(); // If the element is less than the pivot, it is added to the left array
-        //        int[] middle = array.Where(x => x == pivot).ToArray(); // If the element is equal to the pivot, it is added to the middle array
-        //        int[] right = array.Where(x => x > pivot).ToArray(); // If the element is greater than the pivot, it is added to the right array
-        //                                                             // If the element is greater than the pivot, it is added to the right array and sorted using insertion sort
+        // Shuffle the array to avoid bad pivot choices.
+        Random rng = new Random();
 
-        //        int[] mergedArray = new left.Concat(middle).Concat(right).ToArray(); // The left, middle, and right arrays are concatenated into a single array
-
-        //        //Console.Write("Pivot: " + pivot);
-        //        //Console.WriteLine(" | Left: " + string.Join(", ", left) + " | Middle: " + string.Join(", ", middle) + " | Right: " + string.Join(", ", right));
-        //    }
-
-        //for (int i = 0; i < array.Length; i++)
-        //{
-        //    int[] left = array.Where(x => x < pivot).ToArray(); // If the element is less than the pivot, it is added to the left array
-        //    int[] middle = array.Where(x => x == pivot).ToArray(); // If the element is equal to the pivot, it is added to the middle array
-        //    int[] right = array.Where(x => x > pivot).ToArray(); // If the element is greater than the pivot, it is added to the right array
-        //    mergedArray = left.Concat(middle).Concat(right).ToArray(); // The left, middle, and right arrays are concatenated into a single array
-        //    if (array.Length <= M)
-        //    { // The merged array is concatenated with the original array 
-        //        insertionSortArray = InsertionSortMethod(mergedArray);
-        //        break;
-        //    }
-        //}
-        //int[] mergedArray;
-
-
-        //if (array.Length <= M)
-        //{
-        //    insertionSortArray = InsertionSortMethod(quickSortArray); // If the length of the array is less than or equal to M, the array is sorted using insertion sort
-        //    mergedArray = insertionSortArray.Concat(quickSortArray).ToArray(); // The merged array is the concatenation of the insertion sort array and the quicksort array
-        //}
-        //else 
-        //{
-        //    quickSortArray = QuickSort(array);
-        //}
-
-        for (int i = 0; array[i] <= array[M]; i++) // The loop iterates through the array until the element at index M is reached
+        for (int i = array.Length - 1; i > 0; i--)
         {
-            mergedArray = InsertionSortMethod(array); // If the length of the array is less than or equal to M, the array is sorted using insertion sort
+            int j = rng.Next(i + 1); // Random index from 0 to i
+
+            int temp = array[i]; // Swap array[i] with the element at random index to shuffle the array
+            array[i] = array[j];
+            array[j] = temp; // Swap the elements
         }
-        for (int j = M; array[j] < array.Length; j++) // The loop iterates from index M through the array until the end of the array is reached
-        {
-            mergedArray = QuickSort(array); // The merged array is sorted using quicksort
-        }
-        mergedArray = QuickSort(array); // The merged array is sorted using quicksort
-        return mergedArray;
-    }
 
-    public static int[] QuickSort(int[] array)
-    {
-        int[] doneArray = new int[array.Length];
-        int loopedTimes = array.Length - 10;
-        for (int i = 0; i < array.Length && i <= loopedTimes; i++)
-        {
-            if (array.Length <= 1)
-            {
-                return array;
-            }
-
-            int pivot = array[array.Length / 2]; // The pivot is chosen as the middle element of the array
-
-            int[] left = array.Where(x => x < pivot).ToArray(); // If the element is less than the pivot, it is added to the left array
-            int[] middle = array.Where(x => x == pivot).ToArray(); // If the element is equal to the pivot, it is added to the middle array
-            int[] right = array.Where(x => x > pivot).ToArray(); // If the element is greater than the pivot, it is added to the right array
-
-            //Console.Write("Pivot: " + pivot);
-            //Console.WriteLine(" | Left: " + string.Join(", ", left) + " | Middle: " + string.Join(", ", middle) + " | Right: " + string.Join(", ", right));
-            doneArray = QuickSort(left).Concat(middle).Concat(QuickSort(right)).ToArray();
-        }
-        return doneArray;
-    }
-
-    public static int[] InsertionSortMethod(int[] array)
-    {
-        for (int i = 0; i < array.Length; i++)
-        {
-            int key = array[i]; // The key is the element that is being compared to the elements in the sorted part of the array
-            int j = i - 1; // j is the index of the last element in the sorted part of the array
-
-            while (j >= 0 && array[j] > key) // while j is grater than the key, the elements in the sorted part of the array are shifted to the right to make room for the key
-            {
-                array[j + 1] = array[j]; // The element in the sorted part of the array is shifted to the right
-                j--; // j is decremented to compare the key to the next element in the sorted part of the array
-            }
-            array[j + 1] = key; // The key is inserted into the sorted part of the array
-        }
+        QuickSort(array, 0, array.Length - 1); // Call the QuickSort method to sort the array
 
         return array;
     }
 
+    public static void QuickSort(int[] array, int lo, int hi)
+    {
+        // Nothing to sort if the section has 0 or 1 elements.
+        if (hi <= lo)
+            return;
+
+        // Switch to Insertion Sort for small sections.
+        if (hi - lo + 1 <= M) // If the size of the section is less than or equal to M, use Insertion Sort
+        {
+            InsertionSortMethod(array, lo, hi);
+            return;
+        }
+
+        // Partition the array.
+        int pivot = Partition(array, lo, hi); 
+
+        // Sort the left and right sections recursively.
+        QuickSort(array, lo, pivot - 1); // pivot - 1 is the index of the last element in the left section
+        QuickSort(array, pivot + 1, hi); // pivot + 1 is the index of the first element in the right section
+    }
+
+    public static int Partition(int[] array, int lo, int hi)
+    {
+        int pivot = array[lo];
+
+        int i = lo; // Start i at the left end of the section.
+        int j = hi + 1; // Start j at the right end of the section.
+
+        while (true)
+        {
+            // Move i to the right.
+            do
+            {
+                i++;
+            }
+            while (i < hi && array[i] < pivot); // Stop when we find an element greater than or equal to the pivot.
+
+            // Move j to the left.
+            do
+            {
+                j--;
+            }
+            while (array[j] > pivot); // Stop when we find an element less than or equal to the pivot.
+
+            // Stop when the indexes meet.
+            if (i >= j)
+                break;
+
+            // Swap elements.
+            int temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+
+        // Put pivot in its correct position.
+        int temp2 = array[lo]; // pivot is at array[lo], we need to swap it with array[j] because j is the last index of the left section.
+        array[lo] = array[j]; // pivot is now at array[j]
+        array[j] = temp2; // array[j] is now the pivot
+
+        return j;
+    }
+
+    public static void InsertionSortMethod(int[] array, int lo, int hi)
+    {
+        for (int i = lo + 1; i <= hi; i++) // Start from the second element in the section
+        {
+            int key = array[i]; 
+            int j = i - 1;
+
+            while (j >= lo && array[j] > key) // Move elements that are greater than key to one position ahead of their current position
+            {
+                array[j + 1] = array[j]; // Shift the element to the right
+                j--;
+            }
+
+            array[j + 1] = key; 
+        }
+    }
     static void Main(string[] args)
     {
         int[] array = CreateArray();
