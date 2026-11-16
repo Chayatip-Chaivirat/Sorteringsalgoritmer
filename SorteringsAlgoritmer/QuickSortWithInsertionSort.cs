@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 internal class QuickSortWithInsertionSort
 {
     static int M = 20; // The threshold for switching to insertion sort
-    static int arraySize = 1000000; // The size of the array to be sorted
+    static int arraySize = 1000; // The size of the array to be sorted
     public static int[] CreateArray()
     {
         int[] array = new int[arraySize];
@@ -125,16 +125,16 @@ internal class QuickSortWithInsertionSort
             array[j + 1] = key; 
         }
     }
-    static void Main(string[] args)
-    {
-        int[] array = CreateArray();
-        Console.WriteLine("Unsorted array: " + string.Join(", ", array));
-        Console.WriteLine("    ");
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-        int[] sortedArray = QuickSortWihtInsertionSort(array);
-        stopwatch.Stop();
-        Console.WriteLine("Sorted array: " + string.Join(", ", sortedArray));
-        Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + " ms");
-    }
+    //static void Main(string[] args)
+    //{
+    //    int[] array = CreateArray();
+    //    Console.WriteLine("Unsorted array: " + string.Join(", ", array));
+    //    Console.WriteLine("    ");
+    //    Stopwatch stopwatch = new Stopwatch();
+    //    stopwatch.Start();
+    //    int[] sortedArray = QuickSortWihtInsertionSort(array);
+    //    stopwatch.Stop();
+    //    Console.WriteLine("Sorted array: " + string.Join(", ", sortedArray));
+    //    Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + " ms");
+    //}
 }
