@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 internal class MergeSortWithInsertionSort
 {
     static int M = 20; // The threshold for switching to insertion sort
-    static int arraySize = 100000;
+    static int arraySize = 10000;
     public static int[] CreateArray()
     {
         int[] array = new int[arraySize];
@@ -24,114 +24,93 @@ internal class MergeSortWithInsertionSort
 
     public static int[] MergeWithInsert(int[] array)
     {
+        if (array == null)
+            throw new ArgumentNullException(nameof(array));
 
-        if (array.Length <= 1)
-        {
-            return array;
-        }
-        int[] mid = new int[1];
-        mid[0] = array.Length / 2; // The mid index is calculated by dividing the length of the array by 2
-        int[] left = new int[array.Length/2 ];  // The left half of the array is created with the size of mid
-        int[] right = new int[array.Length - mid[0]];  // The right half of the array is created with the size of array.Length - mid
+        // Create one temporary array for merging.
+        int[] temp = new int[array.Length];
 
-        Array.Copy(array, 0, left, 0, mid[0]); // The left half of the array is copied to the left array, the size of the left array is mid, and the size of the right array is array.Length - mid
-        Array.Copy(array, mid[0], right, 0, array.Length - mid[0]);
+        MergeSort(array, temp, 0, array.Length - 1);
 
-        //Console.Write("left array going into Insertion Sort: " + string.Join(", ", left)); // Print the left and right arrays after each iteration
-        //Console.WriteLine("    |    " + "right array going into Insertion Sort: " + string.Join(", ", right));
-
-        //left = InsertionSortMethod(left); // left array is sorted using insertion sort
-        //right = InsertionSortMethod(right); // right array is sorted using insertion sort
-
-        //Console.Write("left array after Insertion Sort: " + string.Join(", ", left)); // Print the left and right arrays after each iteration
-        //Console.WriteLine("    |    " + "right array after Insertion Sort: " + string.Join(", ", right));
-        //Console.WriteLine("    ");
-
-        return Merge(array, left, mid, right); // merge the two sorted arrays and return the merged array sorted using insertion sort
-
+        return array;
     }
-    private static int[] Merge(int[] array, int[] left, int[] mid, int[] right)
+    private static void Merge(int[] array, int[] temp, int lo, int mid, int hi)
     {
-        int[] merged = new int[left.Length + right.Length];
-        int leftIndex = 0;
-        int rightIndex = 0;
-        int mergedIndex = 0;
+        // Copy the current section into the temporary array.
+        Array.Copy(array, lo, temp, lo, hi - lo + 1);
 
-        while (leftIndex < left.Length && rightIndex < right.Length) // While there are elements in both left and right arrays
+        int i = lo;
+        int j = mid + 1;
+
+        // Go through the original section and insert
+        // the smallest available value from the two halves.
+        for (int k = lo; k <= hi; k++)
         {
-            if (left[leftIndex] <= right[rightIndex]) // If the current element in the left array is less than or equal to the current element in the right array
+            if (i > mid)
             {
-                merged[mergedIndex] = left[leftIndex]; // Add the current element in the left array to the merged array
-                leftIndex++; // Move to the next element in the left array
+                // Left half is finished.
+                array[k] = temp[j];
+                j++;
+            }
+            else if (j > hi)
+            {
+                // Right half is finished.
+                array[k] = temp[i];
+                i++;
+            }
+            else if (temp[i] <= temp[j])
+            {
+                // Take the smaller value from the left half.
+                array[k] = temp[i];
+                i++;
             }
             else
             {
-                merged[mergedIndex] = right[rightIndex]; // Add the current element in the right array to the merged array
-                rightIndex++; // Move to the next element in the right array
+                // Take the smaller value from the right half.
+                array[k] = temp[j];
+                j++;
             }
-            mergedIndex++; // Move to the next position in the merged array
         }
-
-        return merged; // Return the merged array
-
-        //    int[] merged = new int[left.Length + right.Length];
-        //    int leftIndex = 0;
-        //    int rightIndex = 0;
-        //    int mergedIndex = 0;
-
-        //    while (leftIndex < left.Length) // If there are any remaining elements in the left array, they are added to the merged array
-        //    {
-        //        merged[mergedIndex] = left[leftIndex];
-        //        leftIndex++;
-        //        mergedIndex++;
-        //    }
-
-        //    while (rightIndex < right.Length) // If there are any remaining elements in the right array, they are added to the merged array
-        //    {
-        //        merged[mergedIndex] = right[rightIndex];
-        //        rightIndex++;
-        //        mergedIndex++;
-        //    }
-
-        //Console.Write("left array:" + string.Join(", ", left)); // Print the merged array after each iteration
-        //Console.Write("  |  " + "right array:" + string.Join(", ", right));
-        //Console.WriteLine("  |  " + "merged left and right array:" + string.Join(", ", merged));
-
-        // return merged;
     }
 
-    public static void MergeSort(int[] array, int[] lo, int[] hi)
+    private static void MergeSort(int[] array, int[] temp, int lo, int hi)
     {
-        if (hi.Length <= lo.Length)
+        // If the section has 0 or 1 elements, it is already sorted.
+        if (hi <= lo)
             return;
-        if (hi.Length - lo.Length <= M) // If the size of the section is less than or equal to M, use insertion sort
+
+        // Switch to Insertion Sort for small sections.
+        if (hi - lo + 1 <= M)
         {
-            for (int i =0; i <= hi.Length; i++) 
-            {
-               for (int j = i + 1; j <= lo.Length; j++)
-                {
-                    InsertionSortMethod(array, lo[i], hi[j]);
-                }
-            }
+            InsertionSortMethod(array, lo, hi);
+            return;
         }
 
-        int[] mid = new int[1];
-        mid[0] = lo.Length + (hi.Length - lo.Length) / 2; // Calculate the mid index of the array
-        MergeSort(array, lo, mid); // Recursively sort the left half of the array
-        MergeSort(array, mid, hi); // Recursively sort the right half of the array
-        Merge(array, lo, mid, hi); // Merge the two sorted halves of the array
+        // Calculate the middle index.
+        int mid = lo + (hi - lo) / 2;
+
+        // Recursively sort the left half.
+        MergeSort(array, temp, lo, mid);
+
+        // Recursively sort the right half.
+        MergeSort(array, temp, mid + 1, hi);
+
+        // Merge the two sorted halves.
+        Merge(array, temp, lo, mid, hi);
     }
 
-    public static void InsertionSortMethod(int[] array, int lo, int hi)
+
+    private static void InsertionSortMethod(
+       int[] array, int lo, int hi)
     {
-        for (int i = lo + 1; i <= hi; i++) // Start from the second element in the section
+        for (int i = lo + 1; i <= hi; i++)
         {
             int key = array[i];
             int j = i - 1;
 
-            while (j >= lo && array[j] > key) // Move elements that are greater than key to one position ahead of their current position
+            while (j >= lo && array[j] > key)
             {
-                array[j + 1] = array[j]; // Shift the element to the right
+                array[j + 1] = array[j];
                 j--;
             }
 

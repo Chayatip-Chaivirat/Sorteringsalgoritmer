@@ -83,15 +83,15 @@ internal class MergeSort
         return merged;
     }
 
-    //static void Main(string[] args)
-    //{
-    //    int[] array = CreateArray();
-    //    Console.WriteLine("Unsorted array: " + string.Join(", ", array));
-    //    Stopwatch stopwatch = new Stopwatch();
-    //    stopwatch.Start();
-    //    int[] sortedArray = MergeSortMethod(array);
-    //    stopwatch.Stop();
-    //    Console.WriteLine("Sorted array: " + string.Join(", ", sortedArray));
-    //    Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + " ms");
-    //}
+    static void Main(string[] args)
+    {
+        int[] array = CreateArray();
+        Console.WriteLine("Unsorted array: " + string.Join(", ", array));
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+        int[] sortedArray = MergeSortMethod(array);
+        stopwatch.Stop();
+        Console.WriteLine("Sorted array: " + string.Join(", ", sortedArray));
+        Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + " ms");
+    }
 }

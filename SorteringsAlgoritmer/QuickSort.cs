@@ -37,16 +37,16 @@ internal class QuickSort
         return QuickSortMethod(left).Concat(middle).Concat(QuickSortMethod(right)).ToArray(); // Return a sorted array by connecting the left, middle, and right arrays recursively
     }
 
-    //static void Main(string[] args)
-    //{
-    //    int[] array = CreateArray();
-    //    Console.WriteLine("Unsorted array: " + string.Join(", ", array));
-    //    Console.WriteLine("    ");
-    //    Stopwatch stopwatch = new Stopwatch();
-    //    stopwatch.Start();
-    //    int[] sortedArray = QuickSortMethod(array);
-    //    stopwatch.Stop();
-    //    Console.WriteLine("Sorted array: " + string.Join(", ", sortedArray));
-    //    Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + " ms");
-    //}
+    static void Main(string[] args)
+    {
+        int[] array = CreateArray();
+        Console.WriteLine("Unsorted array: " + string.Join(", ", array));
+        Console.WriteLine("    ");
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+        int[] sortedArray = QuickSortMethod(array);
+        stopwatch.Stop();
+        Console.WriteLine("Sorted array: " + string.Join(", ", sortedArray));
+        Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + " ms");
+    }
 }

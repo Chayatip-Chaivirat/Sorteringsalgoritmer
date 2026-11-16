@@ -47,16 +47,16 @@ internal class UseLibrary
         return sortedArray;
     }
 
-    //static void Main(string[] args)
-    //{
-    //    int[] array = CreateArray();
-    //    Console.WriteLine("Unsorted array: " + string.Join(", ", array));
-    //    Console.WriteLine("    ");
-    //    Stopwatch stopwatch = new Stopwatch();
-    //    stopwatch.Start();
-    //    int[] sortedArray = AddAlgorithm(array);
-    //    stopwatch.Stop();
-    //    Console.WriteLine("Sorted array: " + string.Join(", ", sortedArray));
-    //    Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + " ms");
-    //}
+    static void Main(string[] args)
+    {
+        int[] array = CreateArray();
+        Console.WriteLine("Unsorted array: " + string.Join(", ", array));
+        Console.WriteLine("    ");
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+        int[] sortedArray = AddAlgorithm(array);
+        stopwatch.Stop();
+        Console.WriteLine("Sorted array: " + string.Join(", ", sortedArray));
+        Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + " ms");
+    }
 }
